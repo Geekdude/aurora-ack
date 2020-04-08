@@ -15,15 +15,15 @@ architecture testbench of aurora_ack_tb is
 
 --*************************Parameter Declarations**************************
     -- 156.25MHz GT Reference clock
-    constant  CLOCKPERIOD_0 : time := 6.4	 ns;
-    constant  CLOCKPERIOD_1 : time := 6.4	 ns;
-    constant  DRP_CLOCKPERIOD  : time := 20.000	 ns;  -- GT DRP Clock
-    constant  INIT_CLOCKPERIOD : time := 20.0 ns; -- Board/System Clock
-    constant  clk_period : time := 6.4 ns;
+    constant  CLOCKPERIOD_0    : time := 6.4     ns;
+    constant  CLOCKPERIOD_1    : time := 6.4     ns;
+    constant  DRP_CLOCKPERIOD  : time := 20.000  ns; -- GT DRP Clock
+    constant  INIT_CLOCKPERIOD : time := 20.0    ns; -- Board/System Clock
+    constant  clk_period       : time := 6.4     ns;
 
-    constant  DLY           : time := 1 ns;
+    constant  DLY              : time := 1       ns;
 
-    constant  WORD_SIZE     : positive := 64;
+    constant  WORD_SIZE        : positive := 64;
 
 --********************************Signal Declarations**********************************
     --Freerunning Clock
@@ -199,7 +199,7 @@ architecture testbench of aurora_ack_tb is
         );
     end component;
 
-    COMPONENT aurora_64b66b_fmc1
+    COMPONENT aurora_64b66b
         PORT (
             -- TX Stream Interface
             s_axi_tx_tdata : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -425,7 +425,7 @@ begin
     );
 
     --____________________________Instantiate aurora 0____________________________
-    aurora_0 : aurora_64b66b_fmc1
+    aurora_0 : aurora_64b66b
         port map  (
             -- TX Stream Interface
             s_axi_tx_tdata    => m_axi_tx0_tdata,
@@ -520,7 +520,7 @@ begin
         );
 
     --____________________________Instantiate aurora 1____________________________
-    aurora_1 : aurora_64b66b_fmc1
+    aurora_1 : aurora_64b66b
         port map  (
             -- TX Stream Interface
             s_axi_tx_tdata    => m_axi_tx1_tdata,
