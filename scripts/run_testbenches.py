@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Description"""
+"""Script used to easily run testbenches using GHDL."""
 
 import argparse
 import sys
@@ -42,18 +42,19 @@ def import_src():
     run('ghdl -a --ieee=synopsys --std=08 src/*')
 
 
-def run_test(tb_file):
+def run_test(tb_file, vcd):
     entname = os.path.splitext(os.path.basename(tb_file))[0]
+    vcdflag = '--vcd={}.vcd'.format(entname) if vcd else ''
     run('ghdl -a --ieee=synopsys --std=08 {}'.format(tb_file))
     run('ghdl -e --ieee=synopsys --std=08 {}'.format(entname))
-    run('ghdl -r --ieee=synopsys --std=08 {} --assert-level=error --ieee-asserts=disable-at-0'.format(entname))
+    run('ghdl -r --ieee=synopsys --std=08 {} {} --assert-level=error --ieee-asserts=disable-at-0'.format(entname, vcdflag))
 
 
 def main(argv):
     # Parse the arguments
-    parser = argparse.ArgumentParser(description="""Description""")
-    parser.add_argument('-t', '--test', type=str, help='Testbench to run or all', required=True)
-    parser.add_argument('-v', '--vcd', action="store_true", help="Save VCD")
+    parser = argparse.ArgumentParser(description="""Script used to easily run testbenches using GHDL.""")
+    parser.add_argument('-t', '--test', type=str, help="testbench file to run or 'all'", required=True)
+    parser.add_argument('-v', '--vcd', action="store_true", help="save VCD wave file")
 
     args = parser.parse_args(argv[1:])
 
@@ -67,10 +68,10 @@ def main(argv):
             if match:
                 if match[1] == 'aurora_ack_tb':
                     continue
-                run_test(f)
+                run_test(f, args.vcd)
 
     else:
-        run_test(args.test)
+        run_test(args.test, args.vcd)
 
 
 if __name__ == '__main__':
