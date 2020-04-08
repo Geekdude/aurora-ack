@@ -4,9 +4,50 @@ This repository contains a custom Aurora acknowledgment automatic repeat request
 
 ## Usage
 ![usage of aurora ack](img/ack-top.png)
-The Aurora ACK module sits between an application FIFO and the Aurora IP component to provide high-performance, error-free communication over an Aurora channel using multi-gigabit transceivers. Aurora ACK was designed generically such that different sized communication packets could be used. Preliminary support for variable length packets is also included, but a max packet size (or frame size) must be provided to build the internal send window memory memory. The all of the communication busses use the [AXI4-Stream ARM AMBA protocol](https://static.docs.arm.com/ihi0051/a/IHI0051A_amba4_axi4_stream_v1_0_protocol_spec.pdf).
+The Aurora ACK module sits between an application FIFO and the Aurora IP component to provide high-performance, error-free communication over an Aurora channel using multi-gigabit transceivers. Aurora ACK was designed generically such that different sized communication packets could be used. Preliminary support for variable length packets is also included, but a max packet size (or frame size) must be provided to build the internal send window memory memory. The all of the communication busses use the [AXI4-Stream ARM AMBA protocol](https://static.docs.arm.com/ihi0051/a/IHI0051A_amba4_axi4_stream_v1_0_protocol_spec.pdf). The VHDL source files for this component can be found in `src/`. All of the VHDL files are needed for the design. The top-level entity is in `src/aurora_ack.vhd`. The component can be instantiate as follows.
 
-This table shows the customizable Aurora ACK generics.
+    aurora_ack_i : entity work.aurora_ack(Behavioral)
+    generic map (
+        WORD_SIZE          => 64,
+        FRAME_WIDTH        => 512,
+
+        MAX_FLOOD          => 2,
+        FLOOD_WAIT         => 100,
+        NEW_PACKET_RESETS  => TRUE
+    )
+    port map (
+        clk    => user_clk,
+        rst_n  => reset_pcie_n,
+
+        -- TX Stream Interface
+        m_axi_tx_tdata          => ack_m_axi_tx_tdata_i,
+        m_axi_tx_tvalid         => ack_m_axi_tx_tvalid_i,
+        m_axi_tx_tready         => ack_m_axi_tx_tready_i,
+        m_axi_tx_tkeep          => ack_m_axi_tx_tkeep_i,
+        m_axi_tx_tlast          => ack_m_axi_tx_tlast_i,
+
+        -- RX Stream Interface
+        s_axi_rx_tdata          => ack_s_axi_rx_tdata_i,
+        s_axi_rx_tkeep          => ack_s_axi_rx_tkeep_i,
+        s_axi_rx_tvalid         => ack_s_axi_rx_tvalid_i,
+        s_axi_rx_tlast          => ack_s_axi_rx_tlast_i,
+
+        -- Send Stream Interface
+        s_axi_send_tdata        => ack_s_axi_send_tdata_i,
+        s_axi_send_tready       => ack_s_axi_send_tready_i,
+        s_axi_send_tvalid       => ack_s_axi_send_tvalid_i,
+
+        -- Receive Stream Interface
+        m_axi_recv_tdata        => ack_m_axi_recv_tdata_i,
+        m_axi_recv_tvalid       => ack_m_axi_recv_tvalid_i,
+        m_axi_recv_tready       => ack_m_axi_recv_tready_i,
+
+        -- Receive CRC
+        crc_pass_fail_n         => crc_pass_fail_n_i,
+        crc_valid               => crc_valid_i
+    );
+
+The following table shows the customizable Aurora ACK generics.
 
 | Generic           | Default Value | Description                                                                                                                                                                |
 |-------------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
