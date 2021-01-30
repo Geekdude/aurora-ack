@@ -1,8 +1,28 @@
 # Aurora ACK
 Designed by Aaron Young
 
-This repository contains a custom Aurora acknowledgment automatic repeat request design I created using VHDL for my PhD dissertation to make high-performance, robust, board-to-board communication possible via an [Aurora 8b10b](https://www.xilinx.com/products/intellectual-property/aurora8b10b.html) or an [Aurora 64b66b](https://www.xilinx.com/products/intellectual-property/aurora64b66b.html) channel. A detailed description of the design can be found in my dissertation available at **URL HERE** in Section 7.3.1. Aurora ACK implements a [go-back-n](https://en.wikipedia.org/wiki/Sliding_window_protocol) protocol with aggressive retransmission and flood control.
+This repository contains a custom Aurora acknowledgment automatic repeat request design I created using VHDL for my PhD dissertation to make high-performance, robust, board-to-board communication possible via an [Aurora 8b10b](https://www.xilinx.com/products/intellectual-property/aurora8b10b.html) or an [Aurora 64b66b](https://www.xilinx.com/products/intellectual-property/aurora64b66b.html) channel. A detailed description of the design can be found in my dissertation, [SNACC: The Scaled-up Neuromorphic Array Communications Controller](https://trace.tennessee.edu/utk_graddiss/5843/), in Section 7.3.1. Aurora ACK implements a [go-back-n](https://en.wikipedia.org/wiki/Sliding_window_protocol) protocol with aggressive retransmission and flood control.
 ![aurora ack design](img/ack-design.png)
+
+## Citing
+
+If you use this repository, please cite my dissertation [SNACC: The Scaled-up Neuromorphic Array Communications Controller](https://trace.tennessee.edu/utk_graddiss/5843/).
+
+### Recommended Citation 
+
+Plain Text:
+
+    Young, Aaron Reed, "SNACC: The Scaled-up Neuromorphic Array Communications Controller. " PhD diss., University of Tennessee, 2020.
+    https://trace.tennessee.edu/utk_graddiss/5843
+
+Bibtex:
+
+    @PhdThesis{young_snacc,
+        author      = {Aaron Reed Young},
+        title       = {SNACC: The Scaled-up Neuromorphic Array Communications Controller},
+        date        = {2020},
+        institution = {University of Tennessee},
+    }
 
 ## Usage
 ![usage of aurora ack](img/ack-top.png)
